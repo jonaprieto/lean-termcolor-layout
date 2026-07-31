@@ -34,13 +34,53 @@ theorem pad_right_example :
   decide
 
 set_option maxRecDepth 10000 in
+theorem pad_left_example :
+    (padLeft 5 (Text.plain "hi")).plainText = "   hi" := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem align_left_example :
+    (align 5 .left (Text.plain "hi")).plainText = "hi   " := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem align_center_example :
+    (align 5 .center (Text.plain "hi")).plainText = " hi  " := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem align_right_example :
+    (align 5 .right (Text.plain "hi")).plainText = "   hi" := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem multiline_padding_example :
+    (padRight 3 (Text.plain "a\n界")).plainText = "a  \n界 " := by
+  decide
+
+set_option maxRecDepth 10000 in
 theorem truncate_example :
     (truncate 3 (Text.plain "hello")).plainText = "hel" := by
   decide
 
 set_option maxRecDepth 10000 in
+theorem truncate_wide_character_does_not_overflow :
+    (truncate 1 (Text.plain "界")).plainText = "" := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem truncate_preserves_style_text :
+    (truncate 3 (Text.styled "界面" Style.cyan)).plainText = "界" := by
+  decide
+
+set_option maxRecDepth 10000 in
 theorem wrap_preserves_ascii_chunks :
     (wrap 3 (Text.plain "abcdef")).plainText = "abc\ndef" := by
+  decide
+
+set_option maxRecDepth 10000 in
+theorem wrap_wide_characters_do_not_overflow :
+    (wrap 3 (Text.plain "界面")).plainText = "界\n面" := by
   decide
 
 end Layout

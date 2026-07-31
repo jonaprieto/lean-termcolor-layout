@@ -14,7 +14,8 @@ private def widthRow (label : String) (value : Text) : Text :=
 
 private def alignmentRows : Text := Text.concat
   [ Text.plain "left   | " ++ align 16 .left (Text.styled "left" Style.green) ++ Text.plain "\n"
-  , Text.plain "center | " ++ align 16 .center (Text.styled "center" Style.yellow) ++ Text.plain "\n"
+  , Text.plain "center | " ++ align 16 .center (Text.styled "center" Style.yellow) ++
+      Text.plain "\n"
   , Text.plain "right  | " ++ align 16 .right (Text.styled "right" Style.cyan) ++ Text.plain "\n"
   ]
 
@@ -27,7 +28,7 @@ private def columnsDemo : Text := Text.concat
   , Text.plain "\n"
   , columns [12, 24, 10] 2
       [ Text.styled "width" Style.cyan
-      , Text.plain "CJK and combining marks" 
+      , Text.plain "CJK and combining marks"
       , Text.plain "Unicode"
       ] [.left, .left, .right]
   , Text.plain "\n"

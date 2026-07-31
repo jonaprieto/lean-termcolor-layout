@@ -59,24 +59,20 @@ private def joinLines : List Text → Text
 
 private def splitAtWidth (limit : Nat) (items : List (Char × Style)) :
     List (Char × Style) × List (Char × Style) :=
-  let rec go (remaining : Nat) (taken : Nat) (acc : List (Char × Style)) :
+  let rec go (remaining : Nat) (acc : List (Char × Style)) :
       List (Char × Style) → List (Char × Style) × List (Char × Style)
     | [] => (acc.reverse, [])
     | item :: rest =>
         let itemWidth := charWidth item.1
-        if itemWidth == 0 || itemWidth ≤ remaining || taken == 0 then
-          go (remaining - min itemWidth remaining) (taken + itemWidth) (item :: acc) rest
+        if itemWidth == 0 || itemWidth ≤ remaining then
+          go (remaining - itemWidth) (item :: acc) rest
         else
           (acc.reverse, item :: rest)
-  go limit 0 [] items
+  go limit [] items
 
 private def takeWidth (limit : Nat) (text : Text) : Text :=
   if limit == 0 then Text.empty
   else fromAnnotated (splitAtWidth limit (annotatedChars text)).1
-
-private def dropWidth (limit : Nat) (text : Text) : Text :=
-  if limit == 0 then text
-  else fromAnnotated (splitAtWidth limit (annotatedChars text)).2
 
 private def mapLines (function : Text → Text) (text : Text) : Text :=
   joinLines (splitLines text |>.map function)
