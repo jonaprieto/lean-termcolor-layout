@@ -11,6 +11,12 @@ truncation, wrapping, columns, and boxes. It performs no terminal IO and emits n
 until the caller uses `Text.render`. Width-sensitive defaults use 80 columns until a caller supplies
 the live terminal width.
 
+## What it provides
+
+- display-cell width for control characters, combining marks, CJK text, emoji, and ambiguous characters;
+- truncation, wrapping, padding, alignment, columns, and bordered boxes;
+- style-preserving `TermColor.Text` output that remains independent of terminal capabilities.
+
 ```lean
 import TermColor.Layout
 
@@ -23,7 +29,7 @@ def message : Text := Text.styled "界面" Style.bold
 #eval (wrap 3 message).plainText
 ```
 
-Build:
+## Build
 
 ```sh
 lake build TermColor.Layout TermColor.Layout.Properties demo
