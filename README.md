@@ -26,6 +26,10 @@ lake build TermColorLayout LayoutProperties demo
 lake exe demo
 ```
 
+## Demo
+
+![termcolor-layout demo output](assets/demo.gif)
+
 The separate `LayoutProperties` library contains machine-checked laws and concrete width/layout
 examples. The layout policy treats controls and combining marks as zero-width, common CJK and
 emoji as two columns, and ambiguous characters as one. It is codepoint-based and does not model
