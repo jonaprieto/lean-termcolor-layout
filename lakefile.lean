@@ -11,7 +11,7 @@ meta if get_config? env = some "dev" then
     "https://github.com/leanprover/doc-gen4" @ "a41d5ebebfa77afe737fec8de8ad03fc8b08fdff"
 
 require «termcolor» from git
-  "https://github.com/jonaprieto/lean-termcolor.git" @ "5af8a9895750a735d18a77a3cd866cbf48ccd45d"
+  "https://github.com/jonaprieto/lean-termcolor.git" @ "cad33339fb9e64e251840b8ad4c1a2ba4306b598"
 
 @[default_target]
 lean_lib «TermColorLayout» where
