@@ -1,5 +1,9 @@
 # termcolor-layout
 
+[![CI](https://github.com/jonaprieto/lean-termcolor-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/jonaprieto/lean-termcolor-layout/actions/workflows/ci.yml)
+[![Lean 4](https://img.shields.io/badge/Lean%204-library-5f5f5f)](lean-toolchain)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+
 Pure display-width measurement and layout for [`termcolor`](https://github.com/jonaprieto/lean-termcolor).
 
 It preserves `TermColor.Text` styles while providing Unicode-aware width, padding, alignment,
@@ -28,7 +32,7 @@ lake exe demo
 
 ## Demo
 
-![termcolor-layout demo output](assets/demo.gif)
+![termcolor-layout demo output](assets/demo.png)
 
 The separate `LayoutProperties` library contains machine-checked laws and concrete width/layout
 examples. The layout policy treats controls and combining marks as zero-width, common CJK and
