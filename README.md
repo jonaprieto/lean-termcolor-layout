@@ -12,7 +12,7 @@ until the caller uses `Text.render`. Width-sensitive defaults use 80 columns unt
 the live terminal width.
 
 ```lean
-import TermColorLayout
+import TermColor.Layout
 
 open TermColor
 open TermColor.Layout
@@ -26,7 +26,7 @@ def message : Text := Text.styled "界面" Style.bold
 Build:
 
 ```sh
-lake build TermColorLayout LayoutProperties demo
+lake build TermColor.Layout TermColor.Layout.Properties demo
 lake exe demo
 ```
 
@@ -34,7 +34,7 @@ lake exe demo
 
 ![termcolor-layout demo output](assets/demo.png)
 
-The separate `LayoutProperties` library contains machine-checked laws and concrete width/layout
+The separate `TermColor.Layout.Properties` library contains machine-checked laws and concrete width/layout
 examples. The layout policy treats controls and combining marks as zero-width, common CJK and
 emoji as two columns, and ambiguous characters as one. It is codepoint-based and does not model
 grapheme-cluster shaping or terminal-specific emoji presentation.

@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jonathan Prieto-Cubides
 -/
 
-import TermColorLayout.Width
+import TermColor.Layout.Width
 
 /-!
 # TermColor.Layout.Basic: pure styled-text layout
