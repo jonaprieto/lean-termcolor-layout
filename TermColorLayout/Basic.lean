@@ -23,7 +23,6 @@ inductive Alignment where
   | left
   | right
   | center
-  deriving BEq, DecidableEq, Repr
 
 private def spaces (count : Nat) : Text :=
   Text.plain (String.ofList (List.replicate count ' '))
@@ -50,8 +49,7 @@ private def splitLines (text : Text) : List Text :=
         ([], fromAnnotated current.reverse :: completed)
       else
         ((character, style) :: current, completed)) ([], [])
-  let result := (fromAnnotated current.reverse :: completed).reverse
-  if result.isEmpty then [Text.empty] else result
+  (fromAnnotated current.reverse :: completed).reverse
 
 private def joinLines : List Text → Text
   | [] => Text.empty
@@ -148,7 +146,7 @@ private def row (widths : List Nat) (gap : Nat) (alignments : List Alignment)
 def columns (widths : List Nat) (gap : Nat) (cells : List Text)
     (alignments : List Alignment := []) : Text :=
   let wrapped := cells.mapIdx fun index cell =>
-    (splitLines (wrap (widthAt widths index) cell)).map id
+    splitLines (wrap (widthAt widths index) cell)
   let rows := maxRows wrapped
   joinLines ((List.range rows).map (row widths gap alignments wrapped))
 
@@ -159,7 +157,6 @@ structure BoxChars where
   bottomRight : Char := '┘'
   horizontal : Char := '─'
   vertical : Char := '│'
-  deriving BEq, DecidableEq, Repr
 
 def asciiBoxChars : BoxChars where
   topLeft := '+'
@@ -176,7 +173,6 @@ structure BoxConfig where
   title : Option Text := none
   titleAlignment : Alignment := .center
   maxWidth : Option Nat := some defaultWidth
-  deriving BEq, DecidableEq, Repr
 
 private def borderRun (config : BoxConfig) (character : Char) (count : Nat) : Text :=
   Text.styled (String.ofList (List.replicate count character)) config.borderStyle
