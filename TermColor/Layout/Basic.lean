@@ -46,7 +46,12 @@ private def fromAnnotated (items : List (Char × Style)) : Text :=
     | [] => [{ text := character.toString, style := style }]) []
   { segments := segments.reverse }
 
-private def splitLines (text : Text) : List Text :=
+/-- Split a `Text` into logical lines on `'\n'`, preserving each segment's style.
+
+The counterpart to `joinLines`. Callers laying out their own multi-line cells need this to
+indent or pad continuation lines: `columns` aligns every column to its width, so a caller
+that wants no trailing padding on the last column has to split and rejoin itself. -/
+def splitLines (text : Text) : List Text :=
   let (current, completed) := annotatedChars text |>.foldl
     (fun (current, completed) (character, style) =>
       if character == '\n' then

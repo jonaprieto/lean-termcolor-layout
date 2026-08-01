@@ -74,5 +74,25 @@ theorem wrap_wide_characters_do_not_overflow :
     (wrapLines 3 (Text.plain "界面")).plainText = "界\n面" := by
   decide
 
+theorem split_lines_single_line :
+    (splitLines (Text.plain "hi")).length = 1 := by
+  decide
+
+theorem split_lines_counts_logical_lines :
+    (splitLines (Text.plain "a\nb\nc")).length = 3 := by
+  decide
+
+theorem split_lines_keeps_empty_line :
+    (splitLines (Text.plain "a\n\nb")).length = 3 := by
+  decide
+
+theorem split_lines_join_roundtrip :
+    (joinLines (splitLines (Text.plain "a\nb\nc"))).plainText = "a\nb\nc" := by
+  decide
+
+theorem split_lines_preserves_style :
+    (splitLines (Text.styled "a\nb" Style.bold)).map (·.plainText) = ["a", "b"] := by
+  decide
+
 end Layout
 end TermColor
