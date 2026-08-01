@@ -16,13 +16,17 @@ responsibility of `TermColor.Text.render`.
 namespace TermColor
 namespace Layout
 
-/-! Default fallback for layout that has no terminal width yet. -/
+/-- Default fallback for layout that has no terminal width yet. -/
 def defaultWidth : Nat := 80
 
 inductive Alignment where
+  /-- Align content against the left edge. -/
   | left
+  /-- Align content against the right edge. -/
   | right
+  /-- Center content within the available width. -/
   | center
+  deriving BEq, DecidableEq, Repr, Inhabited
 
 private def spaces (count : Nat) : Text :=
   Text.plain (String.ofList (List.replicate count ' '))
@@ -51,7 +55,8 @@ private def splitLines (text : Text) : List Text :=
         ((character, style) :: current, completed)) ([], [])
   (fromAnnotated current.reverse :: completed).reverse
 
-private def joinLines : List Text → Text
+/-- Join logical lines with newline separators. -/
+def joinLines : List Text → Text
   | [] => Text.empty
   | first :: rest => rest.foldl (fun result line => result ++ Text.plain "\n" ++ line) first
 
@@ -119,7 +124,7 @@ private def wrapLine (limit : Nat) (line : Text) : List Text :=
 
 /-- Wrap every logical line to at most `limit` display columns. A wide first character may occupy
 two columns when `limit` is one, since splitting a character is impossible. -/
-def wrap (limit : Nat) (text : Text) : Text :=
+def wrapLines (limit : Nat) (text : Text) : Text :=
   let limit := max 1 limit
   joinLines ((splitLines text).flatMap (wrapLine limit))
 
@@ -146,18 +151,27 @@ private def row (widths : List Nat) (gap : Nat) (alignments : List Alignment)
 def columns (widths : List Nat) (gap : Nat) (cells : List Text)
     (alignments : List Alignment := []) : Text :=
   let wrapped := cells.mapIdx fun index cell =>
-    splitLines (wrap (widthAt widths index) cell)
+    splitLines (wrapLines (widthAt widths index) cell)
   let rows := maxRows wrapped
   joinLines ((List.range rows).map (row widths gap alignments wrapped))
 
+/-! Characters used to draw a box. -/
 structure BoxChars where
+  /-- Top-left corner. -/
   topLeft : Char := '┌'
+  /-- Top-right corner. -/
   topRight : Char := '┐'
+  /-- Bottom-left corner. -/
   bottomLeft : Char := '└'
+  /-- Bottom-right corner. -/
   bottomRight : Char := '┘'
+  /-- Horizontal border character. -/
   horizontal : Char := '─'
+  /-- Vertical border character. -/
   vertical : Char := '│'
+  deriving BEq, DecidableEq, Repr, Inhabited
 
+/-- ASCII characters for terminals without Unicode box drawing. -/
 def asciiBoxChars : BoxChars where
   topLeft := '+'
   topRight := '+'
@@ -166,13 +180,23 @@ def asciiBoxChars : BoxChars where
   horizontal := '-'
   vertical := '|'
 
+/-! Configuration for `box`. `maxWidth` is the outer width, including borders and padding. -/
 structure BoxConfig where
+  /-- Characters used for the border. -/
   chars : BoxChars := {}
+  /-- Style applied to border characters. -/
   borderStyle : Style := {}
+  /-- Number of spaces between the border and content. -/
   padding : Nat := 1
+  /-- Optional one-line title in the top border. -/
   title : Option Text := none
+  /-- Horizontal alignment of the title. -/
   titleAlignment : Alignment := .center
+  /-- Maximum outer width, including borders and padding. -/
   maxWidth : Option Nat := some defaultWidth
+  deriving BEq, DecidableEq, Repr
+
+instance : Inhabited BoxConfig := ⟨{}⟩
 
 private def borderRun (config : BoxConfig) (character : Char) (count : Nat) : Text :=
   Text.styled (String.ofList (List.replicate count character)) config.borderStyle
@@ -203,12 +227,17 @@ private def boxLine (config : BoxConfig) (innerWidth : Nat) (line : Text) : Text
 def box (content : Text) (config : BoxConfig := {}) : Text :=
   let available := config.maxWidth.map fun width => max 1 (width - 2 - 2 * config.padding)
   let content := match available with
-    | some width => wrap width content
+    | some width => wrapLines width content
     | none => content
+  let title := match available, config.title with
+    | some width, some title =>
+        if width < 2 then none else some (truncate (width - 2) title)
+    | _, title => title
+  let config := { config with title }
   let contentLines := splitLines content
   let contentWidth := contentLines.foldl
     (fun result line => max result (stringWidth line.plainText)) 0
-  let titleWidth := match config.title with
+  let titleWidth := match title with
     | none => 0
     | some title => stringWidth title.plainText + 2
   let innerWidth := max contentWidth titleWidth

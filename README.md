@@ -26,7 +26,7 @@ open TermColor.Layout
 def message : Text := Text.styled "界面" Style.bold
 
 #eval Text.width message -- 4
-#eval (wrap 3 message).plainText
+#eval (wrapLines 3 message).plainText
 ```
 
 ## Build

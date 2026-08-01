@@ -17,6 +17,15 @@ theorem ascii_width : stringWidth "termcolor" = 9 := by
 theorem cjk_width : stringWidth "界" = 2 := by
   decide
 
+theorem neutral_chess_width : charWidth (Char.ofNat 0x265C) = 1 := by
+  decide
+
+theorem ambiguous_spade_width : charWidth (Char.ofNat 0x2660) = 1 := by
+  decide
+
+theorem neutral_arrow_width : charWidth (Char.ofNat 0x27B5) = 1 := by
+  decide
+
 theorem combining_width : stringWidth "e\u0301" = 1 := by
   decide
 
@@ -25,7 +34,7 @@ theorem ansi_style_does_not_change_width :
   decide
 
 theorem wrapping_keeps_style :
-    Text.render RenderTarget.ansi16 (wrap 1 (Text.styled "ab" Style.red)) =
+    Text.render RenderTarget.ansi16 (wrapLines 1 (Text.styled "ab" Style.red)) =
       "\u001b[31ma\u001b[0m\n\u001b[31mb\u001b[0m" := by
   decide
 
@@ -41,6 +50,11 @@ theorem columns_wrap_example :
 theorem box_example :
     (box (Text.plain "hi") { padding := 1 }).plainText =
       "┌────┐\n│ hi │\n└────┘" := by
+  decide
+
+theorem box_title_respects_max_width :
+    (box (Text.plain "x")
+      { padding := 0, title := some (Text.plain "long title here"), maxWidth := some 8 }).width = 8 := by
   decide
 
 theorem ascii_box_example :

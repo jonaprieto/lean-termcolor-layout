@@ -5,6 +5,7 @@ Authors: Jonathan Prieto-Cubides
 -/
 
 import TermColor.Layout
+import TermColor.Detect
 
 open TermColor
 open TermColor.Layout
@@ -86,7 +87,7 @@ def main : IO Unit := do
   let truncation := Text.concat
     [ Text.plain "truncate | " ++ truncate 16
         (Text.styled "界面 content that is longer" Style.yellow) ++ Text.plain "\n"
-    , Text.plain "wrap    | " ++ wrap 16
+    , Text.plain "wrap    | " ++ wrapLines 16
         (Text.styled "界面 content that wraps and keeps style" Style.magenta) ++ Text.plain "\n"
     ]
   let document := Text.concat
@@ -107,4 +108,5 @@ def main : IO Unit := do
     , Text.plain (Text.plainText (Text.styled "still readable" Style.bold))
     , Text.plain "\n"
     ]
-  IO.print (Text.render RenderTarget.ansi16 document)
+  let target ← TermColor.target
+  IO.print (Text.render target document)

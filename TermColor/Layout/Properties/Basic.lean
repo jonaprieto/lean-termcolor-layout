@@ -67,11 +67,11 @@ theorem truncate_preserves_style_text :
   decide
 
 theorem wrap_preserves_ascii_chunks :
-    (wrap 3 (Text.plain "abcdef")).plainText = "abc\ndef" := by
+    (wrapLines 3 (Text.plain "abcdef")).plainText = "abc\ndef" := by
   decide
 
 theorem wrap_wide_characters_do_not_overflow :
-    (wrap 3 (Text.plain "界面")).plainText = "界\n面" := by
+    (wrapLines 3 (Text.plain "界面")).plainText = "界\n面" := by
   decide
 
 end Layout
