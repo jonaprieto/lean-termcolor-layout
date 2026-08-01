@@ -54,7 +54,8 @@ theorem box_example :
 
 theorem box_title_respects_max_width :
     (box (Text.plain "x")
-      { padding := 0, title := some (Text.plain "long title here"), maxWidth := some 8 }).width = 8 := by
+      { padding := 0, title := some (Text.plain "long title here"), maxWidth := some 8 }).width =
+      8 := by
   decide
 
 theorem ascii_box_example :
