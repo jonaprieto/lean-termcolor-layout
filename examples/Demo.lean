@@ -26,7 +26,8 @@ private def widthRow (label : String) (value : Text) : Text :=
 private def alignmentRows : Text := Text.concat
   [ Text.plain "left   | " ++ align 16 .left (Text.styled "left" (Style.fg demoPalette.green)) ++
       Text.plain "\n"
-  , Text.plain "center | " ++ align 16 .center (Text.styled "center" (Style.fg demoPalette.yellow)) ++
+  , Text.plain "center | " ++
+      align 16 .center (Text.styled "center" (Style.fg demoPalette.yellow)) ++
       Text.plain "\n"
   , Text.plain "right  | " ++ align 16 .right (Text.styled "right" (Style.fg demoPalette.cyan)) ++
       Text.plain "\n"
@@ -88,7 +89,8 @@ def main : IO Unit := do
     , widthRow "multiline" (Text.plain "ab\n界")
     ]
   let padding := Text.concat
-    [ Text.plain "padRight | " ++ padRight 16 (Text.styled "content" (Style.fg demoPalette.green)) ++
+    [ Text.plain "padRight | " ++
+        padRight 16 (Text.styled "content" (Style.fg demoPalette.green)) ++
         Text.plain "\n"
     , Text.plain "padLeft  | " ++ padLeft 16 (Text.styled "content" (Style.fg demoPalette.cyan)) ++
         Text.plain "\n"
