@@ -15,6 +15,9 @@ the live terminal width.
 
 - display-cell width for control characters, combining marks, CJK text, emoji, and ambiguous characters;
 - truncation, wrapping, padding, alignment, columns, and bordered boxes;
+- `splitLines` and `joinLines`, a pair: split a `Text` into logical lines preserving each
+  segment's style, and put it back together. A caller laying out its own cells needs both,
+  because `columns` pads every column including the last;
 - style-preserving `TermColor.Text` output that remains independent of terminal capabilities.
 
 ```lean
