@@ -11,6 +11,10 @@ truncation, wrapping, columns, and boxes. It performs no terminal IO and emits n
 until the caller uses `Text.render`. Width-sensitive defaults use 80 columns until a caller supplies
 the live terminal width.
 
+It is the layout layer used by [`termcolor-widgets`](https://github.com/jonaprieto/lean-termcolor-widgets),
+[`termcolor-terminal`](https://github.com/jonaprieto/lean-termcolor-terminal), and
+[`argus`](https://github.com/jonaprieto/lean-argus).
+
 ## What it provides
 
 - display-cell width for control characters, combining marks, CJK text, emoji, and ambiguous characters;
