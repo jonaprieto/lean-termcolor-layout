@@ -38,6 +38,13 @@ theorem wrapping_keeps_style :
       "\u001b[31ma\u001b[0m\n\u001b[31mb\u001b[0m" := by
   decide
 
+theorem wrapping_keeps_hyperlink :
+    Text.render (RenderTarget.withHyperlinks RenderTarget.trueColor)
+      (wrapLines 1 (Text.hyperlink "file:///tmp/input.txt" (Text.plain "ab"))) =
+      "\u001b]8;;file:///tmp/input.txt\u001b\\a\u001b]8;;\u001b\\\n" ++
+        "\u001b]8;;file:///tmp/input.txt\u001b\\b\u001b]8;;\u001b\\" := by
+  native_decide
+
 theorem columns_example :
     (columns [4, 4] 1 [Text.plain "a", Text.plain "b"]).plainText = "a    b   " := by
   decide

@@ -31,19 +31,19 @@ inductive Alignment where
 private def spaces (count : Nat) : Text :=
   Text.plain (String.ofList (List.replicate count ' '))
 
-private def annotatedChars (text : Text) : List (Char × Style) :=
+private def annotatedChars (text : Text) : List (Char × Style × Option String) :=
   text.segments.flatMap fun segment => segment.text.toList.map fun character =>
-    (character, segment.style)
+    (character, segment.style, segment.link)
 
-private def fromAnnotated (items : List (Char × Style)) : Text :=
-  let segments := items.foldl (fun segments (character, style) =>
+private def fromAnnotated (items : List (Char × Style × Option String)) : Text :=
+  let segments := items.foldl (fun segments (character, style, link) =>
     match segments with
     | last :: rest =>
-        if last.style == style then
+        if last.style == style && last.link == link then
           { last with text := last.text.push character } :: rest
         else
-          { text := character.toString, style := style } :: segments
-    | [] => [{ text := character.toString, style := style }]) []
+          { text := character.toString, style := style, link := link } :: segments
+    | [] => [{ text := character.toString, style := style, link := link }]) []
   { segments := segments.reverse }
 
 /-- Split a `Text` into logical lines on `'\n'`, preserving each segment's style.
@@ -53,11 +53,11 @@ indent or pad continuation lines: `columns` aligns every column to its width, so
 that wants no trailing padding on the last column has to split and rejoin itself. -/
 def splitLines (text : Text) : List Text :=
   let (current, completed) := annotatedChars text |>.foldl
-    (fun (current, completed) (character, style) =>
+    (fun (current, completed) (character, style, link) =>
       if character == '\n' then
         ([], fromAnnotated current.reverse :: completed)
       else
-        ((character, style) :: current, completed)) ([], [])
+        ((character, style, link) :: current, completed)) ([], [])
   (fromAnnotated current.reverse :: completed).reverse
 
 /-- Join logical lines with newline separators. -/
@@ -65,10 +65,11 @@ def joinLines : List Text → Text
   | [] => Text.empty
   | first :: rest => rest.foldl (fun result line => result ++ Text.plain "\n" ++ line) first
 
-private def splitAtWidth (limit : Nat) (items : List (Char × Style)) :
-    List (Char × Style) × List (Char × Style) :=
-  let rec go (remaining : Nat) (acc : List (Char × Style)) :
-      List (Char × Style) → List (Char × Style) × List (Char × Style)
+private def splitAtWidth (limit : Nat) (items : List (Char × Style × Option String)) :
+    List (Char × Style × Option String) × List (Char × Style × Option String) :=
+  let rec go (remaining : Nat) (acc : List (Char × Style × Option String)) :
+      List (Char × Style × Option String) →
+        List (Char × Style × Option String) × List (Char × Style × Option String)
     | [] => (acc.reverse, [])
     | item :: rest =>
         let itemWidth := charWidth item.1
@@ -108,11 +109,11 @@ def align (target : Nat) (alignment : Alignment) (text : Text) : Text :=
 def truncate (limit : Nat) (text : Text) : Text :=
   mapLines (takeWidth limit) text
 
-private def wrapAnnotated (limit : Nat) (items : List (Char × Style)) :
-    List (List (Char × Style)) :=
-  let rec go (remaining : Nat) (current : List (Char × Style))
-      (completed : List (List (Char × Style))) : List (Char × Style) →
-      List (List (Char × Style))
+private def wrapAnnotated (limit : Nat) (items : List (Char × Style × Option String)) :
+    List (List (Char × Style × Option String)) :=
+  let rec go (remaining : Nat) (current : List (Char × Style × Option String))
+      (completed : List (List (Char × Style × Option String))) :
+      List (Char × Style × Option String) → List (List (Char × Style × Option String))
     | [] =>
         if current.isEmpty then completed.reverse else (current.reverse :: completed).reverse
     | item :: rest =>

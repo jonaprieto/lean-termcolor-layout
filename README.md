@@ -22,7 +22,8 @@ It is the layout layer used by [`termcolor-widgets`](https://github.com/jonaprie
 - `splitLines` and `joinLines`, a pair: split a `Text` into logical lines preserving each
   segment's style, and put it back together. A caller laying out its own cells needs both,
   because `columns` pads every column including the last;
-- style-preserving `TermColor.Text` output that remains independent of terminal capabilities.
+- style-preserving `TermColor.Text` output, including OSC-8 hyperlink metadata, that remains
+  independent of terminal capabilities.
 
 ```lean
 import TermColor.Layout

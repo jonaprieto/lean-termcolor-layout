@@ -2,12 +2,12 @@ import Lake
 open Lake DSL
 
 package «termcolor-layout» where
-  version := v!"0.1.4"
+  version := v!"0.1.5"
   leanOptions := #[⟨`autoImplicit, false⟩, ⟨`relaxedAutoImplicit, false⟩]
 
 require «termcolor» from git
   "https://github.com/jonaprieto/lean-termcolor.git"
-  @ "f0c0cef08a9c0c2019929856d48c6ba46458a26f"
+  @ "d0d9a6d24cd06a2ca5de0c47d1860fb0363aa397"
 
 @[default_target]
 lean_lib «TermColor.Layout» where
