@@ -46,9 +46,7 @@ lake exe demo
 
 ## Demo
 
-![termcolor-layout display-width and layout gallery](assets/layout-hero.svg)
-
-The gallery covers Unicode display cells, tab stops, alignment, wrapping, columns, boxes, ASCII
+The demo covers Unicode display cells, tab stops, alignment, wrapping, columns, boxes, ASCII
 fallbacks, and style/OSC-8 metadata preservation.
 
 The separate `TermColor.Layout.Properties` library contains machine-checked laws and concrete width/layout
