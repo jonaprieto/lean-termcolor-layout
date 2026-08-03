@@ -117,6 +117,28 @@ def stringWidth (text : String) : Nat :=
       else (current + charWidth character, widest)) (0, 0)
   max current widest
 
+private def spaces (count : Nat) : String :=
+  String.ofList (List.replicate count ' ')
+
+/-- Expand tabs to the next tab stop. A zero tab width is treated as one. -/
+def expandTabs (tabWidth : Nat) (text : String) : String :=
+  let tabWidth := max 1 tabWidth
+  let rec go (column : Nat) : List Char → String
+    | [] => ""
+    | character :: rest =>
+      if character == '\n' then
+        "\n" ++ go 0 rest
+      else if character == '\t' then
+        let count := tabWidth - column % tabWidth
+        spaces count ++ go (column + count) rest
+      else
+        character.toString ++ go (column + charWidth character) rest
+  go 0 text.toList
+
+/-- Display width after expanding tabs to the supplied tab stops. -/
+def stringWidthWithTabs (tabWidth : Nat) (text : String) : Nat :=
+  stringWidth (expandTabs tabWidth text)
+
 end Layout
 
 namespace Text
