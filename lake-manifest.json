@@ -1,15 +1,16 @@
-{"version": "1.1.0",
+{"version": "1.2.0",
  "packagesDir": ".lake/packages",
  "packages":
  [{"url": "https://github.com/jonaprieto/lean-termcolor.git",
    "type": "git",
    "subDir": null,
    "scope": "",
-   "rev": "d0d9a6d24cd06a2ca5de0c47d1860fb0363aa397",
+   "rev": "0d5a6ba9ac64912a91fd724eb986a18fc0793b98",
    "name": "termcolor",
    "manifestFile": "lake-manifest.json",
-   "inputRev": "d0d9a6d24cd06a2ca5de0c47d1860fb0363aa397",
+   "inputRev": "0d5a6ba9ac64912a91fd724eb986a18fc0793b98",
    "inherited": false,
    "configFile": "lakefile.lean"}],
  "name": "«termcolor-layout»",
- "lakeDir": ".lake"}
+ "lakeDir": ".lake",
+ "fixedToolchain": false}
