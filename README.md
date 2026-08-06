@@ -19,6 +19,7 @@ It is the layout layer used by [`termcolor-widgets`](https://github.com/jonaprie
 
 - display-cell width for control characters, combining marks, CJK text, emoji, and ambiguous characters;
 - truncation, wrapping, padding, alignment, columns, and bordered boxes;
+- word-aware wrapping, hanging gutters, column separators, and public box inner-width calculation;
 - `splitLines` and `joinLines`, a pair: split a `Text` into logical lines preserving each
   segment's style, and put it back together. A caller laying out its own cells needs both,
   because `columns` pads every column including the last;

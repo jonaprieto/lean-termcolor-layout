@@ -83,6 +83,28 @@ theorem wrap_wide_characters_do_not_overflow :
     (wrapLines 3 (Text.plain "界面")).plainText = "界\n面" := by
   decide
 
+theorem wrap_words_prefers_spaces :
+    (wrapWords 8 (Text.plain "hello world")).plainText = "hello\nworld" := by
+  decide
+
+theorem wrap_words_splits_long_words :
+    (wrapWords 3 (Text.plain "abcdef")).plainText = "abc\ndef" := by
+  decide
+
+theorem gutter_aligns_continuations :
+    (gutter (Text.plain "› ") 2 12 (Text.plain "a long expression")).plainText =
+      "› a long exp\n  ression" := by
+  decide
+
+theorem columns_draws_styled_separator :
+    (columns [2, 2] 1 [Text.plain "a", Text.plain "b"] [] (Text.plain "│")).plainText =
+      "a │b " := by
+  decide
+
+theorem box_inner_width_matches_box :
+    boxInnerWidth { padding := 1 } 12 = 8 := by
+  decide
+
 theorem split_lines_single_line :
     (splitLines (Text.plain "hi")).length = 1 := by
   decide
