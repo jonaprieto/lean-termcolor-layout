@@ -7,8 +7,6 @@
 Pure display-width measurement and layout for [`termcolor`](https://github.com/jonaprieto/lean-termcolor).
 Styles remain attached to `Text`; no terminal IO or escape emission occurs here.
 
-Version: `v0.1.8`
-
 ## Provides
 
 Display-cell width, truncation, wrapping, padding, alignment, columns, boxes, `splitLines`, and
