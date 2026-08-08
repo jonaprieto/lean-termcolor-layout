@@ -18,6 +18,11 @@ lean_lib «TermColor.Layout.Properties» where
   roots := #[`TermColor.Layout.Properties]
   globs := #[.andSubmodules `TermColor.Layout.Properties]
 
+@[test_driver]
+lean_exe «tests» where
+  root := `Tests
+  srcDir := "test"
+
 lean_exe «demo» where
   root := `Demo
   srcDir := "examples"
