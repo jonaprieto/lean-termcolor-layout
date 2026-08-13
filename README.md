@@ -37,7 +37,8 @@ lake exe demo
 
 Used by [`termcolor-widgets`](https://github.com/jonaprieto/lean-termcolor-widgets),
 [`termcolor-terminal`](https://github.com/jonaprieto/lean-termcolor-terminal), and
-[`argus`](https://github.com/jonaprieto/lean-argus).
+[`argus`](https://github.com/jonaprieto/lean-argus). Diagnostics are provided by
+[`termcolor-diagnostics`](https://github.com/jonaprieto/lean-termcolor-diagnostics).
 
 ## License
 
