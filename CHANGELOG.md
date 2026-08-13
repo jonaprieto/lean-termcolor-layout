@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.12 — 2026-08-13
+
+- Publish the dependency-graph README cleanup.
+
 ## 0.1.11 — 2026-08-13
 
 - Add reference-model and generated layout test gates.
