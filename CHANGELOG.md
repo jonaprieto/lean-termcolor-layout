@@ -6,4 +6,4 @@
 
 ## 0.1.10 — 2026-08-12
 
-- Adopt Lean v4.33.0 and precommit-lean v0.1.5.
+- Adopt Lean v4.33.0 and precommit-lean v0.1.6.
