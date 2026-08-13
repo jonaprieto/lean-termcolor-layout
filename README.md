@@ -1,4 +1,4 @@
-# termcolor-layout
+# lean-termcolor-layout
 
 [![CI](https://github.com/jonaprieto/lean-termcolor-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/jonaprieto/lean-termcolor-layout/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/jonaprieto/lean-termcolor-layout?display_name=tag&sort=semver)](https://github.com/jonaprieto/lean-termcolor-layout/releases)
@@ -10,6 +10,18 @@ Pure display-width measurement and layout for [`termcolor`](https://github.com/j
 Styles remain attached to `Text`; no terminal IO or escape emission occurs here.
 
 <p align="center"><img src="docs/assets/termcolor-layout.png" alt="TermColor layout demo" width="520"></p>
+
+## Status and review
+
+These libraries are actively evolving and are developed with AI assistance and human review.
+CI and machine-checked proofs provide useful evidence, but do not guarantee correctness,
+soundness, portability, performance, or suitability for every use case. Validate behavior
+and assumptions before relying on a release.
+
+Reviewer feedback is welcome, especially on correctness, proofs, API design, usability,
+portability, performance, documentation, and real-world use. Please use the
+[issue tracker](https://github.com/jonaprieto/lean-termcolor-layout/issues) or open a PR with a
+reproducible example and the expected behavior.
 
 ## Provides
 
