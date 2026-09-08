@@ -7,7 +7,7 @@ package «termcolor-layout» where
 
 require «termcolor» from git
   "https://github.com/jonaprieto/lean-termcolor.git"
-  @ "v1.1.5"
+  @ "v1.1.6"
 
 @[default_target]
 lean_lib «TermColor.Layout» where
