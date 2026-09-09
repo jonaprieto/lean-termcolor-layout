@@ -9,6 +9,11 @@
 Pure display-width measurement and layout for [`termcolor`](https://github.com/jonaprieto/lean-termcolor).
 Styles remain attached to `Text`; no terminal IO or escape emission occurs here.
 
+## Problem
+
+Terminal layout needs display-width-aware wrapping and alignment while preserving styling and
+remaining independent of the terminal.
+
 <p align="center"><img src="docs/assets/termcolor-layout.png" alt="TermColor layout demo" width="520"></p>
 
 ## Development
