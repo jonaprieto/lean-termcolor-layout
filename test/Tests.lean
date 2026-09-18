@@ -23,21 +23,24 @@ private
 def referencePadRight
     (target : Nat)
     (text : String)
-    : String :=
+    : String
+    :=
   text ++ String.ofList (List.replicate (target - text.length) ' ')
 
 private
 def referencePadLeft
     (target : Nat)
     (text : String)
-    : String :=
+    : String
+    :=
   String.ofList (List.replicate (target - text.length) ' ') ++ text
 
 private
 def referenceTruncate
     (limit : Nat)
     (text : String)
-    : String :=
+    : String
+    :=
   String.ofList (text.toList.take limit)
 
 private def paddingChecks : List Bool :=

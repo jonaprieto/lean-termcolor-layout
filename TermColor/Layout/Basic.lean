@@ -31,20 +31,23 @@ inductive Alignment where
 private
 def spaces
     (count : Nat)
-    : Text :=
+    : Text
+    :=
   Text.plain (String.ofList (List.replicate count ' '))
 
 private
 def annotatedChars
     (text : Text)
-    : List (Char × Style × Option String) :=
+    : List (Char × Style × Option String)
+    :=
   text.segments.flatMap fun segment => segment.text.toList.map fun character =>
     (character, segment.style, segment.link)
 
 private
 def fromAnnotated
     (items : List (Char × Style × Option String))
-    : Text :=
+    : Text
+    :=
   let segments := items.foldl (fun segments (character, style, link) =>
     match segments with
     | last :: rest =>
@@ -62,7 +65,8 @@ indent or pad continuation lines: `columns` aligns every column to its width, so
 that wants no trailing padding on the last column has to split and rejoin itself. -/
 def splitLines
     (text : Text)
-    : List Text :=
+    : List Text
+    :=
   let (current, completed) := annotatedChars text |>.foldl
     (fun (current, completed) (character, style, link) =>
       if character == '\n' then
@@ -82,7 +86,8 @@ private
 def splitAtWidth
     (limit : Nat)
     (items : List (Char × Style × Option String))
-    : List (Char × Style × Option String) × List (Char × Style × Option String) :=
+    : List (Char × Style × Option String) × List (Char × Style × Option String)
+    :=
   let rec go (remaining : Nat) (acc : List (Char × Style × Option String)) :
       List (Char × Style × Option String) →
         List (Char × Style × Option String) × List (Char × Style × Option String)
@@ -99,7 +104,8 @@ private
 def takeWidth
     (limit : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   if limit == 0 then Text.empty
   else fromAnnotated (splitAtWidth limit (annotatedChars text)).1
 
@@ -107,21 +113,24 @@ private
 def mapLines
     (function : Text → Text)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   joinLines (splitLines text |>.map function)
 
 /-- Pad every logical line on the right to `target` columns. -/
 def padRight
     (target : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   mapLines (fun line => line ++ spaces (target - stringWidth line.plainText)) text
 
 /-- Pad every logical line on the left to `target` columns. -/
 def padLeft
     (target : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   mapLines (fun line => spaces (target - stringWidth line.plainText) ++ line) text
 
 /-- Align every logical line to `target` columns. -/
@@ -129,7 +138,8 @@ def align
     (target : Nat)
     (alignment : Alignment)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   match alignment with
   | .left => padRight target text
   | .right => padLeft target text
@@ -143,14 +153,16 @@ def align
 def truncate
     (limit : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   mapLines (takeWidth limit) text
 
 private
 def wrapAnnotated
     (limit : Nat)
     (items : List (Char × Style × Option String))
-    : List (List (Char × Style × Option String)) :=
+    : List (List (Char × Style × Option String))
+    :=
   let rec go (remaining : Nat) (current : List (Char × Style × Option String))
       (completed : List (List (Char × Style × Option String))) :
       List (Char × Style × Option String) → List (List (Char × Style × Option String))
@@ -168,7 +180,8 @@ private
 def wrapLine
     (limit : Nat)
     (line : Text)
-    : List Text :=
+    : List Text
+    :=
   let chunks := wrapAnnotated limit (annotatedChars line)
   if chunks.isEmpty then [Text.empty] else chunks.map fromAnnotated
 
@@ -177,20 +190,23 @@ two columns when `limit` is one, since splitting a character is impossible. -/
 def wrapLines
     (limit : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   let limit := max 1 limit
   joinLines ((splitLines text).flatMap (wrapLine limit))
 
 private
 def trimTrailingSpaces
     (items : List (Char × Style × Option String))
-    : List (Char × Style × Option String) :=
+    : List (Char × Style × Option String)
+    :=
   List.reverse (List.dropWhile (fun item => item.1 == ' ') (List.reverse items))
 
 private
 def lastSpaceIndex
     (items : List (Char × Style × Option String))
-    : Option Nat :=
+    : Option Nat
+    :=
   (items.foldl (fun (found, index) item =>
     (if item.1 == ' ' then some index else found, index + 1)) (none, 0)).1
 
@@ -198,7 +214,8 @@ private
 def wrapWordLine
     (limit : Nat)
     (items : List (Char × Style × Option String))
-    : List (List (Char × Style × Option String)) :=
+    : List (List (Char × Style × Option String))
+    :=
   if items.isEmpty then [[]]
   else
     let rec go (fuel : Nat) (remaining : List (Char × Style × Option String))
@@ -228,7 +245,8 @@ possible. A word wider than `limit` is split like `wrapLines`; spaces at a break
 def wrapWords
     (limit : Nat)
     (text : Text)
-    : Text :=
+    : Text
+    :=
   let limit := max 1 limit
   joinLines ((splitLines text).flatMap fun line =>
     (wrapWordLine limit (annotatedChars line)).map fromAnnotated)
@@ -238,7 +256,8 @@ def gutter
     (marker : Text)
     (indent width : Nat)
     (body : Text)
-    : Text :=
+    : Text
+    :=
   let wrapped := splitLines (wrapLines (max 1 (width - indent)) body)
   match wrapped with
   | [] => marker
@@ -249,27 +268,31 @@ private
 def widthAt
     (widths : List Nat)
     (index : Nat)
-    : Nat :=
+    : Nat
+    :=
   widths.getD index (widths.getD (widths.length - 1) defaultWidth)
 
 private
 def alignmentAt
     (alignments : List Alignment)
     (index : Nat)
-    : Alignment :=
+    : Alignment
+    :=
   alignments.getD index .left
 
 private
 def maxRows
     (columns : List (List Text))
-    : Nat :=
+    : Nat
+    :=
   columns.foldl (fun result column => max result column.length) 0
 
 private
 def columnSeparator
     (gap : Nat)
     (separator : Text)
-    : Text :=
+    : Text
+    :=
   if separator.segments.all (·.text.isEmpty) then
     spaces gap
   else
@@ -286,7 +309,8 @@ def row
     (separator : Text)
     (columns : List (List Text))
     (index : Nat)
-    : Text :=
+    : Text
+    :=
   let cells := columns.mapIdx fun columnIndex column =>
     align (widthAt widths columnIndex) (alignmentAt alignments columnIndex)
       (column.getD index Text.empty)
@@ -302,7 +326,8 @@ def columns
     (cells : List Text)
     (alignments : List Alignment := [])
     (separator : Text := Text.empty)
-    : Text :=
+    : Text
+    :=
   let wrapped := cells.mapIdx fun index cell =>
     splitLines (wrapLines (widthAt widths index) cell)
   let rows := maxRows wrapped
@@ -355,7 +380,8 @@ instance : Inhabited BoxConfig := ⟨{}⟩
 def boxInnerWidth
     (config : BoxConfig)
     (outer : Nat)
-    : Nat :=
+    : Nat
+    :=
   max 1 (outer - 2 - 2 * config.padding)
 
 private
@@ -363,14 +389,16 @@ def borderRun
     (config : BoxConfig)
     (character : Char)
     (count : Nat)
-    : Text :=
+    : Text
+    :=
   Text.styled (String.ofList (List.replicate count character)) config.borderStyle
 
 private
 def boxTop
     (config : BoxConfig)
     (innerWidth : Nat)
-    : Text :=
+    : Text
+    :=
   let borderWidth := innerWidth + 2 * config.padding
   let left := Text.styled (String.ofList [config.chars.topLeft]) config.borderStyle
   let right := Text.styled (String.ofList [config.chars.topRight]) config.borderStyle
@@ -391,7 +419,8 @@ def boxLine
     (config : BoxConfig)
     (innerWidth : Nat)
     (line : Text)
-    : Text :=
+    : Text
+    :=
   let left := Text.styled (String.ofList [config.chars.vertical]) config.borderStyle
   let right := Text.styled (String.ofList [config.chars.vertical]) config.borderStyle
   left ++ spaces config.padding ++ line ++
@@ -401,7 +430,8 @@ def boxLine
 def box
     (content : Text)
     (config : BoxConfig := {})
-    : Text :=
+    : Text
+    :=
   let available := config.maxWidth.map (boxInnerWidth config)
   let content := match available with
     | some width => wrapLines width content

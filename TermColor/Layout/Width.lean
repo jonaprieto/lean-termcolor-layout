@@ -109,7 +109,8 @@ private def wideRanges : List (Nat × Nat) :=
 /-- Display width of one character in a terminal cell grid. -/
 def charWidth
     (character : Char)
-    : Nat :=
+    : Nat
+    :=
   let value := character.toNat
   if value < 32 || inRange value 0x7F 0x9F || inRanges value combiningRanges then 0
   else if inRanges value wideRanges then 2
@@ -118,7 +119,8 @@ def charWidth
 /-- Maximum display width of the lines in a string. -/
 def stringWidth
     (text : String)
-    : Nat :=
+    : Nat
+    :=
   let (current, widest) := text.toList.foldl
     (fun (current, widest) character =>
       if character == '\n' then (0, max current widest)
@@ -128,14 +130,16 @@ def stringWidth
 private
 def spaces
     (count : Nat)
-    : String :=
+    : String
+    :=
   String.ofList (List.replicate count ' ')
 
 /-- Expand tabs to the next tab stop. A zero tab width is treated as one. -/
 def expandTabs
     (tabWidth : Nat)
     (text : String)
-    : String :=
+    : String
+    :=
   let tabWidth := max 1 tabWidth
   let rec go (column : Nat) : List Char → String
     | [] => ""
@@ -153,7 +157,8 @@ def expandTabs
 def stringWidthWithTabs
     (tabWidth : Nat)
     (text : String)
-    : Nat :=
+    : Nat
+    :=
   stringWidth (expandTabs tabWidth text)
 
 end Layout
