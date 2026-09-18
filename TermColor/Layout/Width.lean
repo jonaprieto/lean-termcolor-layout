@@ -21,11 +21,17 @@ private def inRange (value lower upper : Nat) : Bool := lower ≤ value && value
 
 -- ponytail: linear range scan keeps this static table simple; use sorted arrays and binary
 -- search if profiling a redrawing TUI shows width calculation is a bottleneck.
-private def inRanges (value : Nat) : List (Nat × Nat) → Bool
+private
+def inRanges
+    (value : Nat)
+    : List (Nat × Nat) →
+      Bool
   | [] => false
   | (lower, upper) :: rest => inRange value lower upper || inRanges value rest
 
-private def combiningRanges : List (Nat × Nat) :=
+private
+def combiningRanges
+    : List (Nat × Nat) :=
   [ (0x0300, 0x036F), (0x0483, 0x0489), (0x0591, 0x05BD), (0x05BF, 0x05BF)
   , (0x05C1, 0x05C2), (0x05C4, 0x05C5), (0x05C7, 0x05C7), (0x0610, 0x061A)
   , (0x064B, 0x065F), (0x0670, 0x0670), (0x06D6, 0x06ED), (0x0711, 0x0711)
@@ -84,7 +90,9 @@ private def combiningRanges : List (Nat × Nat) :=
   , (0xE0100, 0xE01EF), (0x200D, 0x200D), (0x1F3FB, 0x1F3FF)
   ]
 
-private def wideRanges : List (Nat × Nat) :=
+private
+def wideRanges
+    : List (Nat × Nat) :=
   [ (0x1100, 0x115F), (0x231A, 0x231B), (0x2329, 0x232A), (0x23E9, 0x23EC)
   , (0x23F0, 0x23F3), (0x25FD, 0x25FE), (0x2614, 0x2615), (0x2648, 0x2653)
   , (0x2668, 0x2668), (0x267B, 0x267F), (0x2693, 0x2693), (0x26A1, 0x26A1)
@@ -103,25 +111,35 @@ private def wideRanges : List (Nat × Nat) :=
   ]
 
 /-- Display width of one character in a terminal cell grid. -/
-def charWidth (character : Char) : Nat :=
+def charWidth
+    (character : Char)
+    : Nat :=
   let value := character.toNat
   if value < 32 || inRange value 0x7F 0x9F || inRanges value combiningRanges then 0
   else if inRanges value wideRanges then 2
   else 1
 
 /-- Maximum display width of the lines in a string. -/
-def stringWidth (text : String) : Nat :=
+def stringWidth
+    (text : String)
+    : Nat :=
   let (current, widest) := text.toList.foldl
     (fun (current, widest) character =>
       if character == '\n' then (0, max current widest)
       else (current + charWidth character, widest)) (0, 0)
   max current widest
 
-private def spaces (count : Nat) : String :=
+private
+def spaces
+    (count : Nat)
+    : String :=
   String.ofList (List.replicate count ' ')
 
 /-- Expand tabs to the next tab stop. A zero tab width is treated as one. -/
-def expandTabs (tabWidth : Nat) (text : String) : String :=
+def expandTabs
+    (tabWidth : Nat)
+    (text : String)
+    : String :=
   let tabWidth := max 1 tabWidth
   let rec go (column : Nat) : List Char → String
     | [] => ""
@@ -136,7 +154,10 @@ def expandTabs (tabWidth : Nat) (text : String) : String :=
   go 0 text.toList
 
 /-- Display width after expanding tabs to the supplied tab stops. -/
-def stringWidthWithTabs (tabWidth : Nat) (text : String) : Nat :=
+def stringWidthWithTabs
+    (tabWidth : Nat)
+    (text : String)
+    : Nat :=
   stringWidth (expandTabs tabWidth text)
 
 end Layout
