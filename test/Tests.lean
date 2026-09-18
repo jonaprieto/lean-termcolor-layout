@@ -40,18 +40,14 @@ def referenceTruncate
     : String :=
   String.ofList (text.toList.take limit)
 
-private
-def paddingChecks
-    : List Bool :=
+private def paddingChecks : List Bool :=
   inputs.flatMap fun text =>
     [ (padRight 5 (Text.plain text)).plainText == referencePadRight 5 text
     , (padLeft 5 (Text.plain text)).plainText == referencePadLeft 5 text
     , (truncate 3 (Text.plain text)).plainText == referenceTruncate 3 text
     ]
 
-private
-def roundTripChecks
-    : List Bool :=
+private def roundTripChecks : List Bool :=
   [ (joinLines (splitLines (Text.plain "a\nb\nc"))).plainText == "a\nb\nc"
   , (joinLines (splitLines (Text.plain "a\n\nb"))).plainText == "a\n\nb"
   , (wrapLines 3 (Text.plain "abcdef")).plainText == "abc\ndef"

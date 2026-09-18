@@ -325,9 +325,7 @@ structure BoxChars where
   deriving BEq, DecidableEq, Repr, Inhabited
 
 /-- ASCII characters for terminals without Unicode box drawing. -/
-def asciiBoxChars
-    : BoxChars
-    where
+def asciiBoxChars : BoxChars where
   topLeft := '+'
   topRight := '+'
   bottomLeft := '+'
