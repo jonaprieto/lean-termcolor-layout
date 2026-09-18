@@ -11,26 +11,32 @@ set_option maxRecDepth 10000
 namespace TermColor
 namespace Layout
 
-theorem ascii_width : stringWidth "termcolor" = 9 := by
+theorem ascii_width
+    : stringWidth "termcolor" = 9 := by
   decide
 
-theorem cjk_width : stringWidth "界" = 2 := by
+theorem cjk_width
+    : stringWidth "界" = 2 := by
   decide
 
-theorem neutral_chess_width : charWidth (Char.ofNat 0x265C) = 1 := by
+theorem neutral_chess_width
+    : charWidth (Char.ofNat 0x265C) = 1 := by
   decide
 
-theorem ambiguous_spade_width : charWidth (Char.ofNat 0x2660) = 1 := by
+theorem ambiguous_spade_width
+    : charWidth (Char.ofNat 0x2660) = 1 := by
   decide
 
-theorem neutral_arrow_width : charWidth (Char.ofNat 0x27B5) = 1 := by
+theorem neutral_arrow_width
+    : charWidth (Char.ofNat 0x27B5) = 1 := by
   decide
 
-theorem combining_width : stringWidth "e\u0301" = 1 := by
+theorem combining_width
+    : stringWidth "e\u0301" = 1 := by
   decide
 
-theorem ansi_style_does_not_change_width :
-    Text.width (Text.styled "warning" Style.bold) = 7 := by
+theorem ansi_style_does_not_change_width
+    : Text.width (Text.styled "warning" Style.bold) = 7 := by
   decide
 
 theorem wrapping_keeps_style :
@@ -45,8 +51,8 @@ theorem wrapping_keeps_hyperlink :
         "\u001b]8;;file:///tmp/input.txt\u001b\\b\u001b]8;;\u001b\\" := by
   native_decide
 
-theorem columns_example :
-    (columns [4, 4] 1 [Text.plain "a", Text.plain "b"]).plainText = "a    b   " := by
+theorem columns_example
+    : (columns [4, 4] 1 [Text.plain "a", Text.plain "b"]).plainText = "a    b   " := by
   decide
 
 theorem columns_wrap_example :
@@ -54,8 +60,8 @@ theorem columns_wrap_example :
       "abcd x   \ne        " := by
   decide
 
-theorem box_example :
-    (box (Text.plain "hi") { padding := 1 }).plainText =
+theorem box_example
+    : (box (Text.plain "hi") { padding := 1 }).plainText =
       "┌────┐\n│ hi │\n└────┘" := by
   decide
 
@@ -65,8 +71,8 @@ theorem box_title_respects_max_width :
       8 := by
   decide
 
-theorem ascii_box_example :
-    (box (Text.plain "hi") { chars := asciiBoxChars, padding := 1 }).plainText =
+theorem ascii_box_example
+    : (box (Text.plain "hi") { chars := asciiBoxChars, padding := 1 }).plainText =
       "+----+\n| hi |\n+----+" := by
   decide
 
