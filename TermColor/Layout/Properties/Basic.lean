@@ -25,7 +25,8 @@ theorem default_width_is_80 : defaultWidth = 80 := by
 
 theorem width_plain
     (text : String)
-    : Text.width (Text.plain text) = stringWidth text := by
+    : Text.width (Text.plain text) = stringWidth text
+    := by
   rfl
 
 theorem expand_tabs_to_next_stop : expandTabs 4 "a\tb" = "a   b" := by
@@ -40,7 +41,8 @@ theorem string_width_with_tabs : stringWidthWithTabs 4 "a\tb" = 5 := by
 theorem width_ignores_style
     (text : String)
     (style : Style)
-    : Text.width (Text.styled text style) = stringWidth text := by
+    : Text.width (Text.styled text style) = stringWidth text
+    := by
   rfl
 
 theorem pad_right_example :

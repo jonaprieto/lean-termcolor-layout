@@ -17,14 +17,16 @@ private def demoPalette : ColorScheme := ColorScheme.catppuccin
 private
 def heading
     (title : String)
-    : Text :=
+    : Text
+    :=
   Text.styled ("\n" ++ title ++ "\n") (Style.bold <+> Style.fg demoPalette.foreground)
 
 private
 def widthRow
     (label : String)
     (value : Text)
-    : Text :=
+    : Text
+    :=
   Text.styled (label ++ "  ") (Style.dim <+> Style.fg demoPalette.comment) ++ value ++
     Text.styled ("  width=" ++ toString (Text.width value) ++
       " height=" ++ toString (Text.height value) ++ "\n")
