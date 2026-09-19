@@ -43,14 +43,20 @@ def referenceTruncate
     :=
   String.ofList (text.toList.take limit)
 
-private def paddingChecks : List Bool :=
+private
+def paddingChecks
+    : List Bool
+    :=
   inputs.flatMap fun text =>
     [ (padRight 5 (Text.plain text)).plainText == referencePadRight 5 text
     , (padLeft 5 (Text.plain text)).plainText == referencePadLeft 5 text
     , (truncate 3 (Text.plain text)).plainText == referenceTruncate 3 text
     ]
 
-private def roundTripChecks : List Bool :=
+private
+def roundTripChecks
+    : List Bool
+    :=
   [ (joinLines (splitLines (Text.plain "a\nb\nc"))).plainText == "a\nb\nc"
   , (joinLines (splitLines (Text.plain "a\n\nb"))).plainText == "a\n\nb"
   , (wrapLines 3 (Text.plain "abcdef")).plainText == "abc\ndef"
@@ -59,6 +65,8 @@ private def roundTripChecks : List Bool :=
 #guard paddingChecks.all id
 #guard roundTripChecks.all id
 
-def main : IO UInt32 := do
+def main
+    : IO UInt32
+    := do
   IO.println "layout reference checks passed"
   pure 0

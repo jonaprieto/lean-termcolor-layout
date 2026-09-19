@@ -85,7 +85,9 @@ private def boxesDemo : Text := Text.concat
         padding := 1 }
   ]
 
-def main : IO Unit := do
+def main
+    : IO Unit
+    := do
   let widthExamples := Text.concat
     [ Text.styled ("defaultWidth=" ++ toString defaultWidth ++ "  charWidth('界')=" ++
         toString (charWidth '界') ++
